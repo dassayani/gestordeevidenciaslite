@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modo Tela</title>
+  <link rel="icon" href="../icones/icone32.png">
+  <link rel="stylesheet" href="../estilos/tokens.css">
+  <style>
+    body { background: var(--bg-app); padding: var(--sp-xl) var(--sp-lg); }
+    main {
+      max-width: 480px; margin: 0 auto; padding: var(--sp-lg);
+      background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius);
+    }
+    h1 { font-size: var(--fs-subtitle); margin: var(--sp-xs) 0 var(--sp-md); }
+    #estado { margin-bottom: var(--sp-md); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="eyebrow">Modo Tela</div>
+    <h1>Captura de qualquer tela</h1>
+    <div id="estado" class="aviso info">Preparando…</div>
+    <button id="parar">Parar compartilhamento</button>
+  </main>
+  <script type="module" src="tela.js"></script>
+</body>
+</html>

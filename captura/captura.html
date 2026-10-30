@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Editar captura · Evidências Lite</title>
+  <link rel="stylesheet" href="../estilos/tokens.css">
+  <style>
+    body { display: flex; flex-direction: column; height: 100vh; background: var(--bg-app); }
+    .barra {
+      display: flex; align-items: center; gap: var(--sp-xs); flex-wrap: wrap;
+      padding: var(--sp-sm) var(--sp-lg); background: var(--bg-header); border-bottom: 1px solid var(--border-soft);
+    }
+    .barra .quando { margin-left: auto; font-size: var(--fs-caption); color: var(--text-tertiary); }
+    .ferramenta { height: var(--ctrl-h-sm); padding: 0 var(--sp-md); font-weight: 600; }
+    .ferramenta[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .separador { width: 1px; height: 22px; background: var(--border); margin: 0 var(--sp-xs); }
+    .cor {
+      width: 22px; height: 22px; padding: 0; border-radius: 50%; border: 2px solid var(--bg-header);
+      box-shadow: 0 0 0 1px var(--border);
+    }
+    .cor[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--accent); }
+    .palco {
+      flex: 1; min-height: 0; margin: var(--sp-md) var(--sp-lg) 0; position: relative;
+      background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    canvas { max-width: 100%; max-height: 100%; cursor: crosshair; touch-action: none; }
+    form { padding: var(--sp-md) var(--sp-lg) var(--sp-lg); display: grid; gap: var(--sp-sm); }
+    label { font-size: var(--fs-caption); font-weight: 600; color: var(--text-secondary); }
+    .acoes { display: flex; gap: var(--sp-sm); justify-content: flex-end; }
+    .acoes .esq { margin-right: auto; }
+  </style>
+</head>
+<body>
+  <div class="barra" role="toolbar" aria-label="Ferramentas">
+    <button type="button" class="ferramenta" data-ferramenta="seta" aria-pressed="true" title="Seta (S)">➚ Seta</button>
+    <button type="button" class="ferramenta" data-ferramenta="borrao" aria-pressed="false" title="Borrar (B)">Borrar</button>
+    <button type="button" class="ferramenta" data-ferramenta="tarja" aria-pressed="false" title="Tarja preta (T): a mais segura para CPF, senha e token">▮ Tarja</button>
+    <span class="separador"></span>
+    <span id="cores"></span>
+    <span class="separador"></span>
+    <button type="button" id="desfazer" class="ferramenta" disabled title="Desfazer (Ctrl+Z)">↶ Desfazer</button>
+    <span class="quando" id="quando"></span>
+  </div>
+  <div class="palco" id="palco"><canvas id="tela" aria-label="Imagem da captura"></canvas></div>
+  <form id="form" autocomplete="off">
+    <div id="status" class="aviso erro" hidden></div>
+    <label for="legenda">Legenda</label>
+    <input type="text" id="legenda" placeholder="O que este print mostra">
+    <div class="acoes">
+      <button type="button" id="excluir" class="esq">Excluir</button>
+      <button type="submit" id="concluir" class="primario">Concluir</button>
+    </div>
+  </form>
+  <script type="module" src="captura.js"></script>
+</body>
+</html>

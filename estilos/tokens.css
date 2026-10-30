@@ -1,0 +1,130 @@
+/* Tokens visuais da extensão: cor, espaçamento e fonte. Toda página usa
+   estas variáveis, e não valores soltos. */
+:root {
+  --fonte: "Segoe UI", system-ui, sans-serif;
+
+  --fs-caption: 12px;   /* FS_CAPTION 9pt  */
+  --fs-body: 14px;      /* FS_BODY 11pt    */
+  --fs-button: 14px;    /* FS_BUTTON, sempre bold */
+  --fs-eyebrow: 11px;   /* títulos de seção em CAIXA ALTA */
+  --fs-subtitle: 16px;
+  --fs-title: 18px;
+
+  --sp-xs: 4px;
+  --sp-sm: 8px;
+  --sp-md: 12px;
+  --sp-lg: 16px;
+  --sp-xl: 24px;
+
+  --ctrl-h: 36px;
+  --ctrl-h-sm: 30px;
+  --radius: 8px;
+
+  --bg-app: #E9EEF2;
+  --bg-panel: #FBFDFE;
+  --bg-header: #F1F6F8;
+  --bg-input: #FFFFFF;
+  --border: #D3DCE2;
+  --border-soft: #E1E8EC;
+  --text-primary: #17262E;
+  --text-secondary: #4A5F6B;
+  --text-tertiary: #6B8190;
+  --text-muted: #8EA2AD;
+  --accent: #0B7285;
+  --accent-hover: #08606F;
+  --accent-bg: #F0F8FA;
+  --accent-bg-strong: #E6F2F5;
+  --danger-bg: #FDECE6;
+  --danger-text: #B2280E;
+  --success-bg: #E2F5EE;
+  --success-text: #0A7A5A;
+  --pill-bg: #EDF2F5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-app: #12181B;
+    --bg-panel: #1C2529;
+    --bg-header: #212B30;
+    --bg-input: #212B30;
+    --border: #333F45;
+    --border-soft: #2B363B;
+    --text-primary: #E7EEF1;
+    --text-secondary: #AFC0C7;
+    --text-tertiary: #8CA0A8;
+    --text-muted: #6B7D84;
+    --accent: #22A6BF;
+    --accent-hover: #3DB8CF;
+    --accent-bg: #183338;
+    --accent-bg-strong: #1B3B41;
+    --danger-bg: #3A2420;
+    --danger-text: #F2937B;
+    --success-bg: #173A30;
+    --success-text: #5FE0B4;
+    --pill-bg: #232E33;
+  }
+}
+
+* { box-sizing: border-box; }
+/* o display:flex de .aviso e outros venceria o atributo hidden */
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  font: var(--fs-body)/1.4 var(--fonte);
+  color: var(--text-primary);
+  background: var(--bg-panel);
+}
+
+.eyebrow {
+  font-size: var(--fs-eyebrow);
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.dica {
+  font-size: var(--fs-caption);
+  color: var(--text-tertiary);
+}
+
+button {
+  font: 700 var(--fs-button) var(--fonte);
+  height: var(--ctrl-h);
+  padding: 0 var(--sp-lg);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+button:hover { border-color: var(--accent); }
+button.primario {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #FFFFFF;
+}
+button.primario:hover { background: var(--accent-hover); }
+button:disabled { opacity: .5; cursor: default; }
+
+input[type="text"] {
+  font: var(--fs-body) var(--fonte);
+  width: 100%;
+  height: var(--ctrl-h);
+  padding: 0 var(--sp-md);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-primary);
+}
+input[type="text"]:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+
+.aviso {
+  padding: var(--sp-sm) var(--sp-md);
+  border-radius: var(--radius);
+  font-size: var(--fs-caption);
+}
+.aviso.ok { background: var(--success-bg); color: var(--success-text); }
+.aviso.erro { background: var(--danger-bg); color: var(--danger-text); }
+.aviso.info { background: var(--accent-bg-strong); color: var(--text-secondary); }

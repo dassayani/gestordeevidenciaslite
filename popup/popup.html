@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../estilos/tokens.css">
+  <style>
+    body { width: 400px; padding: var(--sp-md); }
+    header { display: flex; align-items: center; gap: var(--sp-sm); margin-bottom: var(--sp-md); }
+    header img { width: 24px; height: 24px; }
+    header b { font-size: var(--fs-subtitle); margin-right: auto; }
+    .icone {
+      width: 32px; height: 32px; padding: 0; border-color: transparent; background: transparent;
+      display: inline-flex; align-items: center; justify-content: center; color: var(--text-secondary);
+    }
+    .icone:hover { background: var(--pill-bg); border-color: transparent; color: var(--accent); }
+    .icone svg { width: 18px; height: 18px; }
+    .botoes { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-sm); }
+    .modo {
+      height: auto; padding: var(--sp-sm) var(--sp-md);
+      display: flex; flex-direction: column; align-items: flex-start; gap: var(--sp-xs); text-align: left;
+    }
+    kbd {
+      font: 600 11px var(--fonte); padding: 1px 6px; border-radius: 4px;
+      background: var(--pill-bg); color: var(--text-secondary); white-space: nowrap;
+    }
+    .primario kbd { background: rgba(255, 255, 255, .2); color: #fff; }
+    .aviso { margin-top: var(--sp-sm); display: flex; gap: var(--sp-sm); align-items: center; justify-content: space-between; }
+    .aviso a { white-space: nowrap; }
+    .titulo { display: flex; align-items: center; gap: var(--sp-xs); margin: var(--sp-md) 0 var(--sp-sm); }
+    .titulo .eyebrow { margin-right: auto; }
+    .titulo .icone { width: 28px; height: 28px; }
+    #dia { font-weight: 700; font-size: var(--fs-caption); min-width: 92px; text-align: center; }
+    #calendario { position: absolute; opacity: 0; width: 0; height: 0; border: 0; padding: 0; }
+    /* 3 colunas; duas linhas inteiras (6 imagens) à vista e o resto rola */
+    .grade {
+      display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 84px; gap: var(--sp-xs);
+      max-height: 196px; overflow-y: auto; padding: 2px;
+    }
+    .item {
+      position: relative; height: 100%; padding: 0; overflow: hidden; background: var(--bg-app);
+    }
+    .item img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+    .item.marcada { border: 2px solid var(--accent); }
+    .ordem {
+      position: absolute; top: 3px; left: 3px; min-width: 20px; height: 20px; padding: 0 5px;
+      border-radius: 10px; background: var(--accent); color: #fff; font-size: 11px; line-height: 20px;
+    }
+    .fora {
+      position: absolute; bottom: 4px; left: 4px; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--danger-text); box-shadow: 0 0 0 2px var(--bg-panel);
+    }
+    .excluir {
+      position: absolute; top: 3px; right: 3px; height: 22px; min-width: 22px; padding: 0 6px;
+      border-radius: 11px; font-size: 12px; line-height: 1; opacity: 0;
+      background: var(--bg-panel); color: var(--text-secondary);
+    }
+    .item:hover .excluir, .excluir:focus-visible, .excluir.confirmar { opacity: 1; }
+    .excluir.confirmar { background: var(--danger-text); border-color: var(--danger-text); color: #fff; }
+    .vazio { text-align: center; padding: var(--sp-lg) 0; }
+    .vazio a { display: block; margin-top: var(--sp-xs); }
+    .selecao {
+      display: flex; align-items: center; gap: var(--sp-sm); margin-top: var(--sp-sm);
+      padding: var(--sp-sm); border-radius: var(--radius); background: var(--accent-bg-strong);
+    }
+    .selecao span { margin-right: auto; font-size: var(--fs-caption); }
+    .selecao button { height: var(--ctrl-h-sm); padding: 0 var(--sp-md); }
+    footer { margin-top: var(--sp-md); padding-top: var(--sp-sm); border-top: 1px solid var(--border-soft); display: flex; justify-content: space-between; gap: var(--sp-sm); }
+    a { color: var(--accent); cursor: pointer; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="../icones/icone32.png" alt=""><b>Evidências Lite</b>
+    <button id="config" class="icone" title="Configurações: pasta e atalhos" aria-label="Configurações">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
+  </header>
+
+  <div class="botoes">
+    <button id="aba" class="modo primario">Área desta aba <kbd id="atalhoAba">Alt+1</kbd></button>
+    <button id="tela" class="modo">Qualquer tela <kbd id="atalhoTela">Ctrl+Shift+1</kbd></button>
+  </div>
+
+  <div id="erro" class="aviso erro" hidden><span id="erroTexto"></span><a id="erroTela" hidden>Usar Qualquer tela</a></div>
+  <div id="pendencia" class="aviso info" hidden><span id="pendenciaTexto"></span><a id="pendenciaAcao"></a></div>
+
+  <div class="titulo">
+    <span class="eyebrow">Imagens</span>
+    <button id="anterior" class="icone" title="Dia anterior" aria-label="Dia anterior">◀</button>
+    <span id="dia">Hoje</span>
+    <button id="seguinte" class="icone" title="Dia seguinte" aria-label="Dia seguinte">▶</button>
+    <button id="abrirCalendario" class="icone" title="Escolher o dia" aria-label="Escolher o dia">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+    </button>
+    <input type="date" id="calendario" tabindex="-1" aria-hidden="true">
+  </div>
+  <div id="grade" class="grade"></div>
+  <div id="vazio" class="dica vazio" hidden><span id="vazioTexto"></span><a id="ultimoDia" hidden></a></div>
+  <div id="dicaSelecao" class="dica">Um clique para selecionar · Dois cliques para editar</div>
+  <div id="selecao" class="selecao" hidden>
+    <span id="selecaoTexto"></span>
+    <a id="limpar" class="dica">limpar</a>
+    <button id="gerar" class="primario">Gerar documento</button>
+  </div>
+
+  <footer class="dica">
+    <span id="pasta">📁 nenhuma pasta</span>
+  </footer>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

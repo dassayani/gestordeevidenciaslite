@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Gerar documento · Evidências Lite</title>
+  <link rel="stylesheet" href="../estilos/tokens.css">
+  <style>
+    body { background: var(--bg-app); }
+    main { padding: var(--sp-lg); display: grid; gap: var(--sp-md); max-width: 720px; margin: 0 auto; }
+    h1 { font-size: var(--fs-title); margin: 0; }
+    section {
+      background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: var(--sp-md) var(--sp-lg); display: grid; gap: var(--sp-sm);
+    }
+    .modelos { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-sm); }
+    .modelos label {
+      display: grid; gap: 2px; padding: var(--sp-sm) var(--sp-md); cursor: pointer;
+      border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-input);
+    }
+    .modelos label:has(input:checked) { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); background: var(--accent-bg); }
+    .modelos input { position: absolute; opacity: 0; }
+    .modelos b { font-size: var(--fs-body); }
+    .modelos span { font-size: var(--fs-caption); color: var(--text-tertiary); }
+    .campos { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-sm) var(--sp-md); }
+    .campos .inteiro { grid-column: 1 / -1; }
+    .campo { display: grid; gap: 2px; }
+    .campo span { font-size: var(--fs-caption); font-weight: 600; color: var(--text-secondary); }
+    ol { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--sp-xs); max-height: 200px; overflow-y: auto; }
+    li { display: flex; gap: var(--sp-sm); align-items: center; font-size: var(--fs-caption); }
+    li img { width: 64px; height: 40px; object-fit: contain; background: var(--bg-app); border-radius: 4px; flex-shrink: 0; }
+    li .n { font-weight: 700; color: var(--accent); width: 18px; text-align: right; flex-shrink: 0; }
+    li .sem { color: var(--text-muted); font-style: italic; }
+    li .legenda { flex: 1; min-width: 0; }
+    li .mover { display: flex; gap: 2px; flex-shrink: 0; }
+    li .mover button { width: 26px; height: 26px; padding: 0; font-size: 12px; }
+    .cabeca-lista { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-sm); }
+    select {
+      font: var(--fs-caption) var(--fonte); height: var(--ctrl-h-sm); padding: 0 var(--sp-sm);
+      border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-input); color: var(--text-primary);
+    }
+    .acoes { display: flex; gap: var(--sp-sm); justify-content: flex-end; align-items: center; }
+    .acoes .esq { margin-right: auto; }
+    #resultado { display: flex; gap: var(--sp-sm); align-items: center; justify-content: space-between; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Gerar documento</h1>
+
+    <section>
+      <div class="eyebrow">Modelo</div>
+      <div class="modelos">
+        <label><input type="radio" name="modelo" value="passo" checked><b>Passo a passo</b><span>Manual com passos numerados</span></label>
+        <label><input type="radio" name="modelo" value="ficha"><b>Ficha de evidência</b><span>Cartões EV-01, EV-02…</span></label>
+        <label><input type="radio" name="modelo" value="qa"><b>Relatório QA</b><span>Faixa lateral com resumo</span></label>
+      </div>
+    </section>
+
+    <section class="campos">
+      <label class="campo inteiro"><span>Título</span><input type="text" id="titulo" placeholder="Evidências de teste"></label>
+      <label class="campo"><span>Caso / Projeto</span><input type="text" id="caso" placeholder="CT-4471"></label>
+      <label class="campo"><span>Ambiente</span><input type="text" id="ambiente" placeholder="Homologação"></label>
+      <label class="campo"><span>Autor</span><input type="text" id="autor"></label>
+      <label class="campo"><span>Data</span><input type="text" id="data"></label>
+    </section>
+
+    <section>
+      <div class="cabeca-lista">
+        <div class="eyebrow" id="tituloLista">Imagens</div>
+        <select id="ordenar" aria-label="Ordem das imagens">
+          <option value="antiga">Mais antiga primeiro</option>
+          <option value="nova">Mais nova primeiro</option>
+        </select>
+      </div>
+      <ol id="lista"></ol>
+    </section>
+
+    <div id="resultado" class="aviso ok" hidden><span id="resultadoTexto"></span><button id="abrir">Abrir PDF</button></div>
+    <div id="erro" class="aviso erro" hidden></div>
+
+    <div class="acoes">
+      <button id="fechar" class="esq">Fechar</button>
+      <button id="gerar" class="primario">Gerar PDF</button>
+    </div>
+  </main>
+  <script src="../lib/vendor/jspdf.umd.min.js"></script>
+  <script type="module" src="documento.js"></script>
+</body>
+</html>

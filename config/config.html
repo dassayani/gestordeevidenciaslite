@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Configurações · Evidências Lite</title>
+  <link rel="icon" href="../icones/icone32.png">
+  <link rel="stylesheet" href="../estilos/tokens.css">
+  <style>
+    body { background: var(--bg-app); min-height: 100vh; padding: var(--sp-xl) var(--sp-lg); }
+    main { max-width: 520px; margin: 0 auto; display: grid; gap: var(--sp-lg); }
+    header { display: flex; align-items: center; gap: var(--sp-sm); }
+    header img { width: 28px; height: 28px; }
+    h1 { font-size: var(--fs-title); margin: 0; }
+    section {
+      background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: var(--sp-lg); display: grid; gap: var(--sp-md);
+    }
+    .pasta { font-size: var(--fs-subtitle); font-weight: 700; }
+    .acoes { display: flex; gap: var(--sp-sm); flex-wrap: wrap; }
+    .atalho { display: flex; justify-content: space-between; gap: var(--sp-md); }
+    kbd {
+      font: 600 12px var(--fonte); padding: 2px 8px; border-radius: 4px;
+      background: var(--pill-bg); color: var(--text-secondary); white-space: nowrap;
+    }
+    a { color: var(--accent); cursor: pointer; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <main>
+    <header><img src="../icones/icone32.png" alt=""><h1>Configurações</h1></header>
+
+    <section>
+      <div class="eyebrow">Pasta das capturas</div>
+      <div id="estado" class="aviso info">Verificando a pasta…</div>
+      <div class="pasta" id="pasta" hidden></div>
+      <div class="acoes">
+        <button id="escolher" class="primario">Escolher pasta</button>
+        <button id="permitir" hidden>Permitir gravar</button>
+      </div>
+      <p class="dica">Pasta onde ficam gravadas as imagens capturadas pela extensão. Quando o
+        Chrome pedir permissão, escolha <b>Permitir em todas as visitas</b> para ele não
+        perguntar de novo.</p>
+    </section>
+
+    <section>
+      <div class="eyebrow">Atalhos</div>
+      <div class="atalho"><span>Área desta aba</span><kbd id="atalhoAba">sem atalho</kbd></div>
+      <div class="atalho"><span>Qualquer tela (funciona com qualquer programa na frente)</span><kbd id="atalhoTela">sem atalho</kbd></div>
+      <a id="mudarAtalhos">Mudar atalhos</a>
+    </section>
+  </main>
+  <script type="module" src="config.js"></script>
+</body>
+</html>
